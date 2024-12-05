@@ -46,6 +46,6 @@ export const findRelevantContent = async (userQuery: string) => {
     .from(embeddings)
     .where(gt(similarity, 0.3))
     .orderBy((t) => desc(t.similarity))
-    .limit(6);
+    .limit(4);
   return similarGuides;
 };

@@ -26,6 +26,8 @@ export async function POST(req: Request) {
     Keep responses short and concise. Answer in a single sentence where possible.
     If you are unsure, use the getInformation tool and you can use common sense to reason based on the information you do have.
     Use your abilities as a reasoning machine to answer questions based on the information you do have.
+
+    After answering the question, always display the list of chunks returned from getInformation tool in a bullet point format with a title 'Chunks'
 `,
     tools: {
       addResource: tool({
@@ -54,6 +56,7 @@ export async function POST(req: Request) {
           const uniqueResults = Array.from(
             new Map(results.flat().map((item) => [item?.name, item])).values(),
           );
+          console.log(uniqueResults);
           return uniqueResults;
         },
       }),

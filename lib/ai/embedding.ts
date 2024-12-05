@@ -6,11 +6,16 @@ import { db } from "../db";
 
 const embeddingModel = openai.embedding("text-embedding-ada-002");
 
-const generateChunks = (input: string): string[] => {
-  return input
-    .trim()
-    .split(".")
-    .filter((i) => i !== "");
+const generateChunks = (input: string, chunkSize: number = 1000): string[] => {
+  const chunks: string[] = [];
+  let index = 0;
+
+  while (index < input.length) {
+    chunks.push(input.slice(index, index + chunkSize));
+    index += chunkSize;
+  }
+
+  return chunks;
 };
 
 export const generateEmbeddings = async (
@@ -41,6 +46,6 @@ export const findRelevantContent = async (userQuery: string) => {
     .from(embeddings)
     .where(gt(similarity, 0.3))
     .orderBy((t) => desc(t.similarity))
-    .limit(4);
+    .limit(6);
   return similarGuides;
 };

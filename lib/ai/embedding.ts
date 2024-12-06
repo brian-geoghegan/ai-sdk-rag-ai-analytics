@@ -39,7 +39,11 @@ export const generateEmbedding = async (value: string): Promise<number[]> => {
 };
 
 export const findRelevantContent = async (userQuery: string) => {
+  console.log("Users query: ", userQuery)
+  console.log(userQuery);
   const userQueryEmbedded = await generateEmbedding(userQuery);
+  console.log("Users query embedded")
+  console.log(userQueryEmbedded)
   const similarity = sql<number>`1 - (${cosineDistance(embeddings.embedding, userQueryEmbedded)})`;
   const similarGuides = await db
     .select({ name: embeddings.content, similarity })

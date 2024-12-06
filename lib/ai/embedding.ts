@@ -4,7 +4,8 @@ import { cosineDistance, desc, gt, sql } from "drizzle-orm";
 import { embeddings } from "../db/schema/embeddings";
 import { db } from "../db";
 
-const embeddingModel = openai.embedding("text-embedding-ada-002");
+const embeddingModelName = 'text-embedding-ada-002'
+const embeddingModel = openai.embedding(embeddingModelName);
 
 const generateChunks = (input: string, chunkSize: number = 1000): string[] => {
   const chunks: string[] = [];
@@ -30,11 +31,15 @@ export const generateEmbeddings = async (
 };
 
 export const generateEmbedding = async (value: string): Promise<number[]> => {
+  console.log('Embeddings model: ', embeddingModelName)
+
+  console.log('Generating an embedding for text: ', value)
   const input = value.replaceAll("\n", " ");
   const { embedding } = await embed({
     model: embeddingModel,
     value: input,
   });
+  console.log('Embedding: [', embedding.slice(0, 6).join(''), ',...]')
   return embedding;
 };
 
@@ -43,9 +48,7 @@ export const findRelevantContent = async (userQuery: string) => {
   console.log(userQuery);
   const userQueryEmbedded = await generateEmbedding(userQuery);
   const similarity = sql<number>`1 - (${cosineDistance(embeddings.embedding, userQueryEmbedded)})`;
-  
-  console.log("Users query embedded: [", userQueryEmbedded.slice(0,6), ']' );
-  console.log(userQueryEmbedded.slice(0,6))
+
   const similarGuides = await db
     .select({ name: embeddings.content, similarity })
     .from(embeddings)

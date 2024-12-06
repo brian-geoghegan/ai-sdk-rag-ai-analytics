@@ -9,10 +9,11 @@ export const maxDuration = 30;
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
-
+  const coreMessages = convertToCoreMessages(messages);
+  console.log(coreMessages);
   const result = await streamText({
     model: openai("gpt-4o-mini"),
-    messages: convertToCoreMessages(messages),
+    messages: convertToCoreMessages(coreMessages),
     system: `You are a helpful assistant acting as the users' second brain.
     Use tools on every request.
     Be sure to getInformation from your knowledge base before answering any questions.

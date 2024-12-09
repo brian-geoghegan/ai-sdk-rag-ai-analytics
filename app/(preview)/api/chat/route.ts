@@ -71,7 +71,6 @@ export async function POST(req: Request) {
           const uniqueResults = Array.from(
             new Map(results.flat().map((item) => [item?.name, item])).values(),
           );
-          console.log(uniqueResults);
           return uniqueResults;
         },
       }),

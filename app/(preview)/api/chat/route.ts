@@ -26,12 +26,12 @@ export async function POST(req: Request) {
     Keep responses short and concise. Answer in a single sentence where possible.
     If you are unsure, use the getInformation tool and you can use common sense to reason based on the information you do have.
     Use your abilities as a reasoning machine to answer questions based on the information you do have and also use <listChunks> to finish the response
-
+    If the user asks "Hi there", make sure to NOT show the <listChunks> 
     <listChunks>
       After answering the question, always display the list of chunks returned from getInformation tool in a numbered list format format with a title 'Chunks' and also display the similarity score above each chunk labeled 'simularity score' ordered by the highest simularity score.
     <listChunks/ >
 
-    Here is an example response format
+    Here is an example response format:
 
     {answer}
 

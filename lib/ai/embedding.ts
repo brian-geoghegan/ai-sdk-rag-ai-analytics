@@ -31,14 +31,11 @@ export const generateEmbeddings = async (
 };
 
 export const generateEmbedding = async (value: string): Promise<number[]> => {
-  console.log('Embeddings model: ', embeddingModelName)
-  console.log('Generating an embedding for text: ', value)
   const input = value.replaceAll("\n", " ");
   const { embedding } = await embed({
     model: embeddingModel,
     value: input,
   });
-  console.log('Embedding: [', embedding.slice(0, 6).join(''), ',...]')
   return embedding;
 };
 

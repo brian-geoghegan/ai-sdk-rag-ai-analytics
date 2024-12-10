@@ -74,6 +74,15 @@ export async function POST(req: Request) {
           return uniqueResults;
         },
       }),
+
+
+
+
+
+
+
+
+      
       understandQuery: tool({
         description: `understand the users query. use this tool on every prompt.`,
         parameters: z.object({
